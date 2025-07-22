@@ -32,7 +32,7 @@
         vercelデプロイ
     <a href="https://raku3.github.io/gtmtest/">git hub</a>
     <a href="https://blog.hubspot.jp/marketing/ga4-cross-domain">外部リンク</a>
-
+ <button id="redirect-button">raku3.github.io に移動（JSリダイレクト）</button>
   </body>
   <script>
   window.dataLayer = window.dataLayer || [];
@@ -61,5 +61,21 @@
       }, 200); // 200msほど遅延させる
     });
   });
+   document.getElementById('redirect-button').addEventListener('click', function () {
+      const targetUrl = 'https://raku3.github.io/gtmtest/';
+
+      // linker_paramを取得して手動で付加する
+      gtag('get', 'G-QWWHYDJWLX', 'linker_param', function (param) {
+        console.log('取得したlinker_param:', param);
+
+        const delimiter = targetUrl.includes('?') ? '&' : '?';
+        const finalUrl = `${targetUrl}${delimiter}${param}`;
+
+        // 少し遅延させてからリダイレクト
+        setTimeout(() => {
+          window.location.href = finalUrl;
+        }, 200);
+      });
+    });
   </script>
 </html>
